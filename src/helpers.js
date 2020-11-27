@@ -51,15 +51,36 @@ export const countAdjacentBombs = (array, row, col) => {
 	return count || "";
 };
 
-export const difficultySwitch = (difficulty) => {
+export const difficulties = (difficulty) => {
 	switch (difficulty) {
 		case "easy":
 		default:
-			return [8, 8, 10];
+			return {
+				name: "easy",
+				rows: 8,
+				cols: 8,
+				bombs: 10,
+			};
 		case "medium":
-			console.log("hi");
-			return [16, 16, 40];
+			return {
+				name: "medium",
+				rows: 16,
+				cols: 16,
+				bombs: 40,
+			};
 		case "hard":
-			return [16, 30, 99];
+			return {
+				name: "hard",
+				rows: 16,
+				cols: 30,
+				bombs: 99,
+			};
 	}
+};
+
+export const formatTime = (time) => {
+	return `${~~((time % 3600) / 60)}:${(~~time % 60).toLocaleString("en-GB", {
+		minimumIntegerDigits: 2,
+		useGrouping: false,
+	})}`;
 };

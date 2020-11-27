@@ -1,28 +1,19 @@
 import React, { useState } from "react";
 import classNames from "classnames";
 
-import {
-	bombsBoard,
-	emptyBoard,
-	fullBoard,
-	difficultySwitch,
-} from "../helpers";
+import { bombsBoard, emptyBoard, fullBoard } from "../helpers";
 import Cell from "./Cell";
 
 const Board = (props) => {
 	const classes = classNames("board-root", props.difficulty);
-	const [rows, cols, bombCount] = difficultySwitch(props.difficulty);
+	const [rows, cols, bombCount] = [props.rows, props.cols, props.bombCount];
 	const [board, setBoard] = useState(emptyBoard(rows, cols));
-	const [gameStarted, setGameStarted] = useState(false);
 
 	const startGame = (row, col) => {
 		setBoard(
 			fullBoard(bombsBoard(emptyBoard(rows, cols), bombCount, row, col))
 		);
-		setGameStarted(true);
-	};
-	const endGame = () => {
-		console.log("YOU LOSE");
+		props.startGame();
 	};
 
 	return (
@@ -35,9 +26,12 @@ const Board = (props) => {
 							row={rowIdx}
 							col={colIdx}
 							value={cell}
-							endGame={endGame}
-							gameStarted={gameStarted}
+							endGame={props.endGame}
+							gameState={props.gameState}
 							startGame={startGame}
+							handleCellCount={props.handleCellCount}
+							handleBombCount={props.handleBombCount}
+							bombsLeft={props.bombsLeft}
 						/>
 					);
 				});
